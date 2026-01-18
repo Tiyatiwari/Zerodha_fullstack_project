@@ -64,3 +64,5 @@ npm install
 
 # start the project
 npm start
+
+Test PAT setup
