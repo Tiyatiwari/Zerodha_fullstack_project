@@ -15,29 +15,6 @@ function OpenAccount() {
                 </button>
             </div>
 
-            <style>{`
-                .zerodha-btn {
-                    background-color: #387ED1;
-                    color: #ffffff;
-                    border: none;
-                    border-radius: 4px;
-                    transition: background-color 0.2s ease, transform 0.1s ease;
-                }
-
-                .zerodha-btn:hover {
-                    background-color: #2E6BB8;
-                }
-
-                .zerodha-btn:active {
-                    background-color: #1F4F8F;
-                    transform: scale(0.98);
-                }
-
-                .zerodha-btn:focus {
-                    outline: none;
-                    box-shadow: 0 0 0 3px rgba(56, 126, 209, 0.3);
-                }
-            `}</style>
         </div>
     );
 }
