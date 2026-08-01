@@ -11,9 +11,10 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
-.nav-link {
-  margin-left: 40px;
+@media (min-width: 992px) {
+  .nav-link {
+    margin-left: 40px;
+  }
 }
 
 .zerodha-btn {
@@ -52,4 +53,12 @@ code {
   color: #1E1E2D;
   font-weight: 700;
   margin-bottom: 1rem;
+}
+.team-link {
+  color: #387ED1;
+  text-decoration: none;
+}
+
+.team-link:hover {
+  text-decoration: underline;
 }

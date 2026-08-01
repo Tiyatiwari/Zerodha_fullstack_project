@@ -4,16 +4,16 @@ function Education() {
     return ( 
         <div className='container my-5 py-5'>
             <div className='row align-items-center'>
-                <div className='col-6 text-center'>
+                <div className='col-12 col-md-6 text-center mb-4 mb-md-0'>
                     <img 
                         src="/media/images/education.svg"
                         alt="Varsity" 
                         className='img-fluid'
-                        style={{maxWidth: "450px"}}
+                        style={{maxWidth: "450px", width: "100%"}}
                     />
                 </div>
 
-                <div className='col-6'>
+                <div className='col-12 col-md-6'>
                     <h1 className='mb-4' style={{color: "#1E1E2D", fontWeight: "700", fontSize: "2rem"}}>
                         Free and open market education
                     </h1>
