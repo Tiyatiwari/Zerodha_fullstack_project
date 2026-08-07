@@ -62,3 +62,23 @@ code {
 .team-link:hover {
   text-decoration: underline;
 }
+.product-link {
+  color: #387ed1; /* Blue by default */
+  text-decoration: none;
+  font-size: 17px;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.product-link:hover {
+  color: #424242; /* Black on hover */
+}
+
+.product-link i {
+  margin-left: 6px;
+  transition: transform 0.3s ease;
+}
+
+.product-link:hover i {
+  transform: translateX(5px);
+}
