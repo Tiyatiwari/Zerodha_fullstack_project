@@ -18,7 +18,6 @@ const Menu = () => {
 
   return (
     <div className="menu-container">
-
       <img
         src="/media/images/kite-logo.svg"
         alt="kite logo"
@@ -34,7 +33,6 @@ const Menu = () => {
               </p>
             </Link>
           </li>
-
           <li>
             <Link to="/orders" onClick={() => handleMenuClick(1)}>
               <p className={selectedMenu === 1 ? activeMenuClass : menuClass}>
@@ -42,7 +40,6 @@ const Menu = () => {
               </p>
             </Link>
           </li>
-
           <li>
             <Link to="/holdings" onClick={() => handleMenuClick(2)}>
               <p className={selectedMenu === 2 ? activeMenuClass : menuClass}>
@@ -50,7 +47,6 @@ const Menu = () => {
               </p>
             </Link>
           </li>
-
           <li>
             <Link to="/positions" onClick={() => handleMenuClick(3)}>
               <p className={selectedMenu === 3 ? activeMenuClass : menuClass}>
@@ -58,7 +54,6 @@ const Menu = () => {
               </p>
             </Link>
           </li>
-
           <li>
             <Link to="/funds" onClick={() => handleMenuClick(4)}>
               <p className={selectedMenu === 4 ? activeMenuClass : menuClass}>
@@ -66,7 +61,6 @@ const Menu = () => {
               </p>
             </Link>
           </li>
-
           <li>
             <Link to="/apps" onClick={() => handleMenuClick(5)}>
               <p className={selectedMenu === 5 ? activeMenuClass : menuClass}>
@@ -78,9 +72,31 @@ const Menu = () => {
 
         <hr />
 
-        <div className="profile" onClick={handleProfileClick}>
-          <div className="avatar">ZU</div>
-          <p className="username">USERID</p>
+        {/* --- Profile / Avatar Section with Relative Wrapper --- */}
+        <div className="profile-wrapper">
+          <div className="profile" onClick={handleProfileClick}>
+            <div className="avatar">ZU</div>
+            <p className="username">USERID</p>
+          </div>
+
+          {/* Dropdown Menu */}
+          {isProfileDropdownOpen && (
+            <div className="profile-dropdown">
+              <div className="dropdown-header">
+                <p className="user-fullname">User Name</p>
+                <p className="user-email">user@example.com</p>
+              </div>
+              <hr />
+              <ul>
+                <li>My Profile</li>
+                <li>Settings</li>
+                <li>Console</li>
+                <li>Kite Connect</li>
+                <hr />
+                <li className="logout">Logout</li>
+              </ul>
+            </div>
+          )}
         </div>
       </div>
     </div>
