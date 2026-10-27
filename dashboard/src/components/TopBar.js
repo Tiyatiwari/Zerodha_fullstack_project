@@ -1,4 +1,3 @@
-// TopBar.js
 import React from "react";
 import Menu from "./Menu";
 
@@ -20,7 +19,7 @@ const TopBar = () => {
         </div>
       </div>
 
-      {/* Menu renders its own logo and links */}
+      {/* Menu component renders logo, navigation tabs, user avatar & dropdown */}
       <Menu />
     </div>
   );

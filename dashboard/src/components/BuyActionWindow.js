@@ -13,19 +13,40 @@ const BuyActionWindow = ({ uid }) => {
   const handleBuyClick = async (e) => {
     e.preventDefault();
 
-    try {
-      await axios.post("http://localhost:3002/newOrder", {
-        name: uid,
-        qty: stockQuantity,
-        price: stockPrice,
-        mode: "BUY",
-      });
+    // 🛑 1. Validation: Prevent Quantity or Price being 0 or negative
+    if (Number(stockQuantity) <= 0) {
+      toast.error("Quantity must be greater than 0!");
+      return;
+    }
+    if (Number(stockPrice) <= 0) {
+      toast.error("Price must be greater than ₹0.00!");
+      return;
+    }
 
-      // Green popup on success
+    try {
+      // Get JWT token from local storage
+      const token = localStorage.getItem("token");
+
+      // 2. Send POST request with Auth header
+      await axios.post(
+        "http://localhost:3002/newOrder",
+        {
+          name: uid,
+          qty: Number(stockQuantity),
+          price: Number(stockPrice),
+          mode: "BUY",
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      // Green popup notification on success
       toast.success(`Buy Order Placed for ${stockQuantity} share(s) of ${uid}!`);
     } catch (error) {
       console.error("Error placing buy order:", error);
-      // Red popup on error
       toast.error("Failed to place buy order!");
     }
 
@@ -51,6 +72,7 @@ const BuyActionWindow = ({ uid }) => {
               type="number"
               name="qty"
               id="qty"
+              min="1"
               onChange={(e) => setStockQuantity(e.target.value)}
               value={stockQuantity}
             />
@@ -62,6 +84,7 @@ const BuyActionWindow = ({ uid }) => {
               name="price"
               id="price"
               step="0.05"
+              min="0.05"
               onChange={(e) => setStockPrice(e.target.value)}
               value={stockPrice}
             />

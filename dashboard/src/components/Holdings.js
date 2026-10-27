@@ -6,8 +6,16 @@ const Holdings = () => {
   const [allHoldings, setAllHoldings] = useState([]);
 
   useEffect(() => {
+    // 1. Fetch JWT token from local storage
+    const token = localStorage.getItem("token");
+
+    // 2. Pass authorization headers in the request
     axios
-      .get("http://localhost:3002/allHoldings")
+      .get("http://localhost:3002/allHoldings", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((res) => {
         setAllHoldings(res.data);
       })
@@ -28,10 +36,11 @@ const Holdings = () => {
   );
 
   const totalProfit = currentValue - totalInvestment;
-  const pnlPercentage = totalInvestment > 0 ? (totalProfit / totalInvestment) * 100 : 0;
+  const pnlPercentage =
+    totalInvestment > 0 ? (totalProfit / totalInvestment) * 100 : 0;
   const isOverallProfit = totalProfit >= 0;
 
-  // Split whole and decimal numbers for styling (e.g., "29,875" and "55")
+  // Split whole and decimal numbers for rupee formatting
   const formatSplitNumber = (num) => {
     const formatted = num.toLocaleString("en-IN", {
       minimumFractionDigits: 2,
@@ -44,8 +53,8 @@ const Holdings = () => {
   const investmentFormatted = formatSplitNumber(totalInvestment);
   const currentValueFormatted = formatSplitNumber(currentValue);
 
-  // Graph Labels & Data
-  const labels = allHoldings.map((stock) => stock["name"]);
+  // --- Chart.js Data Preparation ---
+  const labels = allHoldings.map((stock) => stock.name);
 
   const data = {
     labels,
@@ -79,7 +88,8 @@ const Holdings = () => {
           <tbody>
             {allHoldings.map((stock, index) => {
               const curValue = (stock.price || 0) * (stock.qty || 0);
-              const isProfit = curValue - (stock.avg || 0) * (stock.qty || 0) >= 0.0;
+              const isProfit =
+                curValue - (stock.avg || 0) * (stock.qty || 0) >= 0.0;
               const profClass = isProfit ? "profit" : "loss";
               const dayClass = stock.isLoss ? "loss" : "profit";
 
@@ -91,7 +101,11 @@ const Holdings = () => {
                   <td>₹{stock.price ? stock.price.toFixed(2) : "0.00"}</td>
                   <td>{curValue.toFixed(2)}</td>
                   <td className={profClass}>
-                    ₹{(curValue - (stock.avg || 0) * (stock.qty || 0)).toFixed(2)}
+                    ₹
+                    {(
+                      curValue -
+                      (stock.avg || 0) * (stock.qty || 0)
+                    ).toFixed(2)}
                   </td>
                   <td className={profClass}>{stock.net}</td>
                   <td className={dayClass}>{stock.day}</td>
@@ -106,27 +120,41 @@ const Holdings = () => {
       <div className="row">
         <div className="col">
           <h5>
-            ₹{investmentFormatted.whole}.<span style={{ display: "inline", fontSize: "1.0em" }}>{investmentFormatted.decimal}</span>
+            ₹{investmentFormatted.whole}.
+            <span style={{ display: "inline", fontSize: "1.0em" }}>
+              {investmentFormatted.decimal}
+            </span>
           </h5>
           <p>Total investment</p>
         </div>
         <div className="col">
           <h5>
-            ₹{currentValueFormatted.whole}.<span style={{ display: "inline", fontSize: "1.0em" }}>{currentValueFormatted.decimal}</span>
+            ₹{currentValueFormatted.whole}.
+            <span style={{ display: "inline", fontSize: "1.0em" }}>
+              {currentValueFormatted.decimal}
+            </span>
           </h5>
           <p>Current value</p>
         </div>
         <div className="col">
           <h5 className={isOverallProfit ? "profit" : "loss"}>
             {totalProfit >= 0 ? "+₹" : "-₹"}
-            {totalProfit.toFixed(2)} ({pnlPercentage >= 0 ? "+" : ""}
+            {Math.abs(totalProfit).toFixed(2)} (
+            {pnlPercentage >= 0 ? "+" : ""}
             {pnlPercentage.toFixed(2)}%)
           </h5>
           <p>P&L</p>
         </div>
       </div>
 
-      <VerticalGraph data={data} />
+      {/* Render graph only when data is populated */}
+      {allHoldings.length > 0 ? (
+        <VerticalGraph data={data} />
+      ) : (
+        <p style={{ textAlign: "center", marginTop: "20px", color: "#666" }}>
+          No holdings available or loading data...
+        </p>
+      )}
     </>
   );
 };
